@@ -61,97 +61,89 @@ class PokeCardState extends State<PokemonCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: SizedBox(
-          height: 180,
-          width: 180,
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PokemonDetail(
-                            pokemon: pokeDetail,
-                            evolution: pokEvolution,
-                          )));
-              print(pokespecie.evolutionChain.url);
-              print(pokEvolution.chain.species.name);
-            },
-            child: Material(
-              borderRadius: BorderRadius.circular(24.0),
-              child: FutureBuilder(
-                builder: (context, snapshot) {
-                  if (cargo) {
-                    return Hero(
-                      tag:
-                          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                              pokeDetail.id.toString() +
-                              ".png",
-                      child: Container(
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: tieneTipos(pokeDetail.types.length)
-                                    ? [
-                                        pokeDetail.types[0].type.name != null
-                                            ? getColor(
-                                                pokeDetail.types[0].type.name)
-                                            : Colors.white,
-                                        pokeDetail.types[1].type.name != null
-                                            ? getColor(
-                                                pokeDetail.types[1].type.name)
-                                            : Colors.white
-                                      ]
-                                    : [
-                                        pokeDetail.types[0].type.name != null
-                                            ? getColor(
-                                                pokeDetail.types[0].type.name)
-                                            : Colors.white,
-                                        pokeDetail.types[0].type.name != null
-                                            ? getColor(
-                                                pokeDetail.types[0].type.name)
-                                            : Colors.white
-                                      ])),
-                        child: Stack(
-                          children: [
-                            Center(
-                                child: SizedBox(
-                              child: pokeDetail == null
-                                  ? Text("Cargando")
-                                  : Image.network(
-                                      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                                          pokeDetail.id.toString() +
-                                          ".png",
-                                      height: 100,
-                                      width: 150,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                            )),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Text(
-                                widget.nombre,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 21.0,
-                                ),
-                              ),
+      child: InkWell(
+        hoverColor: Colors.transparent,
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PokemonDetail(
+                        pokemon: pokeDetail,
+                        chain: pokEvolution.chain,
+                      )));
+        },
+        child: FutureBuilder(
+          builder: (context, snapshot) {
+            if (cargo) {
+              return Hero(
+                tag: pokeDetail.sprites.frontDefault,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: tieneTipos(pokeDetail.types.length)
+                                ? [
+                                    pokeDetail.types[0].type.name != null
+                                        ? getColor(
+                                            pokeDetail.types[0].type.name)
+                                        : Colors.white,
+                                    pokeDetail.types[1].type.name != null
+                                        ? getColor(
+                                            pokeDetail.types[1].type.name)
+                                        : Colors.white
+                                  ]
+                                : [
+                                    pokeDetail.types[0].type.name != null
+                                        ? getColor(
+                                            pokeDetail.types[0].type.name)
+                                        : Colors.white,
+                                    pokeDetail.types[0].type.name != null
+                                        ? getColor(
+                                            pokeDetail.types[0].type.name)
+                                        : Colors.white
+                                  ])),
+                    child: Stack(
+                      children: [
+                        Center(
+                            child: pokeDetail == null
+                                ? Text("Cargando")
+                                : Image.network(
+                                    pokeDetail.sprites.frontDefault,
+                                    height: 100,
+                                    width: 150,
+                                    fit: BoxFit.fitWidth,
+                                  )),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            widget.nombre,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 21.0,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
-            ),
-          )),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 }

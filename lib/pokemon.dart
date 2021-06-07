@@ -11,7 +11,7 @@ class PokeHub {
     next = json['next'];
     previous = json['previous'];
     if (json['results'] != null) {
-      pokemon = new List<Pokemon>();
+      pokemon = <Pokemon>[];
       json['results'].forEach((v) {
         pokemon.add(new Pokemon.fromJson(v));
       });

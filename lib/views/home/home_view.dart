@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Pokedex/widgets/pokemon_card/funcionColor.dart';
 import 'package:flutter/material.dart';
 import 'package:Pokedex/pokemon.dart';
 import 'package:Pokedex/widgets/centered_view/centered_view.dart';
@@ -37,6 +38,8 @@ class HomePageState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CenteredView(
@@ -50,7 +53,7 @@ class HomePageState extends State<HomeView> {
                       child: CircularProgressIndicator(),
                     )
                   : GridView.count(
-                      crossAxisCount: 6,
+                      crossAxisCount: axisResponsive(screenWidth),
                       children: pokeHub.pokemon
                           .map((poke) => PokemonCard(
                                 nombre: poke.name,

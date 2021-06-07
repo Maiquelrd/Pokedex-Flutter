@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:Pokedex/widgets/pokemon_detail/pokemon_detail.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:Pokedex/evoluciones.dart';
@@ -7,8 +8,9 @@ import 'package:Pokedex/species.dart';
 import 'package:Pokedex/widgets/pokemon_card/funcionColor.dart';
 
 class EvolucionCard extends StatefulWidget {
-  final String nombre;
-  const EvolucionCard({Key key, this.nombre}) : super(key: key);
+  final String pokemonName;
+
+  const EvolucionCard({Key key, this.pokemonName}) : super(key: key);
   @override
   EvolucionState createState() {
     return new EvolucionState();
@@ -16,26 +18,28 @@ class EvolucionCard extends StatefulWidget {
 }
 
 class EvolucionState extends State<EvolucionCard> {
+  PokeDetail pokeDetail;
+  PokEvolution pokEvolution;
+  PokeSpecie pokespecie;
+
   @override
   void initState() {
     super.initState();
-
     fetchData();
   }
 
   bool cargo = false;
 
-  PokeDetail pokeDetail;
-  PokEvolution pokEvolution;
-  PokeSpecie pokespecie;
-
   fetchData() async {
-    var res =
-        await http.get("https://pokeapi.co/api/v2/pokemon/" + widget.nombre);
+    var res = await http
+        .get("https://pokeapi.co/api/v2/pokemon/" + widget.pokemonName);
     var decodedJson2 = jsonDecode(res.body);
     pokeDetail = PokeDetail.fromJson(decodedJson2);
+    fetchData2();
 
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
     cargo = true;
   }
 
@@ -56,18 +60,31 @@ class EvolucionState extends State<EvolucionCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30.0),
+      ),
       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: SizedBox(
           height: 180,
           width: 180,
           child: InkWell(
-            child: Material(
-              borderRadius: BorderRadius.circular(24.0),
-              child: FutureBuilder(
-                builder: (context, snapshot) {
-                  if (cargo) {
-                    return Container(
+            hoverColor: Colors.transparent,
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PokemonDetail(
+                            pokemon: pokeDetail,
+                            chain: pokEvolution.chain,
+                          )));
+            },
+            child: FutureBuilder(
+              builder: (context, snapshot) {
+                if (cargo) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: Container(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
@@ -100,9 +117,7 @@ class EvolucionState extends State<EvolucionCard> {
                             child: pokeDetail == null
                                 ? Text("Cargando")
                                 : Image.network(
-                                    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                                        pokeDetail.id.toString() +
-                                        ".png",
+                                    pokeDetail.sprites.frontDefault,
                                     height: 100,
                                     width: 150,
                                     fit: BoxFit.fitWidth,
@@ -111,7 +126,7 @@ class EvolucionState extends State<EvolucionCard> {
                           Align(
                             alignment: Alignment.bottomCenter,
                             child: Text(
-                              widget.nombre,
+                              widget.pokemonName,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 21.0,
@@ -120,14 +135,14 @@ class EvolucionState extends State<EvolucionCard> {
                           ),
                         ],
                       ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           )),
     );

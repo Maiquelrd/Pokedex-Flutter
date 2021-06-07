@@ -31,18 +31,24 @@ class Chain {
   List<EvolvesTo> evolvesTo;
   bool isBaby;
   Trigger species;
+  List<SubChain> subChain;
 
-  Chain({this.evolutionDetails, this.evolvesTo, this.isBaby, this.species});
+  Chain(
+      {this.evolutionDetails,
+      this.evolvesTo,
+      this.isBaby,
+      this.species,
+      this.subChain});
 
   Chain.fromJson(Map<String, dynamic> json) {
     if (json['evolution_details'] != null) {
-      evolutionDetails = new List<EvolutionDetails>();
+      evolutionDetails = <EvolutionDetails>[];
       json['evolution_details'].forEach((v) {
         evolutionDetails.add(new EvolutionDetails.fromJson(v));
       });
     }
     if (json['evolves_to'] != null) {
-      evolvesTo = new List<EvolvesTo>();
+      evolvesTo = <EvolvesTo>[];
       json['evolves_to'].forEach((v) {
         evolvesTo.add(new EvolvesTo.fromJson(v));
       });
@@ -79,13 +85,13 @@ class EvolvesTo {
 
   EvolvesTo.fromJson(Map<String, dynamic> json) {
     if (json['evolution_details'] != null) {
-      evolutionDetails = new List<EvolutionDetails>();
+      evolutionDetails = <EvolutionDetails>[];
       json['evolution_details'].forEach((v) {
         evolutionDetails.add(new EvolutionDetails.fromJson(v));
       });
     }
     if (json['evolves_to'] != null) {
-      evolvesTo = new List<EvolvesTo>();
+      evolvesTo = <EvolvesTo>[];
       json['evolves_to'].forEach((v) {
         evolvesTo.add(new EvolvesTo.fromJson(v));
       });
@@ -243,4 +249,11 @@ class Trigger {
     data['url'] = this.url;
     return data;
   }
+}
+
+class SubChain {
+  List<EvolvesTo> evolvesTo;
+  String name;
+
+  SubChain({this.evolvesTo, this.name});
 }

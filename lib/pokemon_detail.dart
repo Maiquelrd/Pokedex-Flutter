@@ -38,27 +38,27 @@ class PokeDetail {
 
   PokeDetail.fromJson(Map<String, dynamic> json) {
     if (json['abilities'] != null) {
-      abilities = new List<Abilities>();
+      abilities = <Abilities>[];
       json['abilities'].forEach((v) {
         abilities.add(new Abilities.fromJson(v));
       });
     }
     baseExperience = json['base_experience'];
     if (json['forms'] != null) {
-      forms = new List<Forms>();
+      forms = <Forms>[];
       json['forms'].forEach((v) {
         forms.add(new Forms.fromJson(v));
       });
     }
     if (json['game_indices'] != null) {
-      gameIndices = new List<GameIndices>();
+      gameIndices = <GameIndices>[];
       json['game_indices'].forEach((v) {
         gameIndices.add(new GameIndices.fromJson(v));
       });
     }
     height = json['height'];
     if (json['held_items'] != null) {
-      heldItems = new List<HeldItems>();
+      heldItems = <HeldItems>[];
       json['held_items'].forEach((v) {
         heldItems.add(new HeldItems.fromJson(v));
       });
@@ -67,7 +67,7 @@ class PokeDetail {
     isDefault = json['is_default'];
     locationAreaEncounters = json['location_area_encounters'];
     if (json['moves'] != null) {
-      moves = new List<Moves>();
+      moves = <Moves>[];
       json['moves'].forEach((v) {
         moves.add(new Moves.fromJson(v));
       });
@@ -79,13 +79,13 @@ class PokeDetail {
     sprites =
         json['sprites'] != null ? new Sprites.fromJson(json['sprites']) : null;
     if (json['stats'] != null) {
-      stats = new List<Stats>();
+      stats = <Stats>[];
       json['stats'].forEach((v) {
         stats.add(new Stats.fromJson(v));
       });
     }
     if (json['types'] != null) {
-      types = new List<Types>();
+      types = <Types>[];
       json['types'].forEach((v) {
         types.add(new Types.fromJson(v));
       });
@@ -209,7 +209,7 @@ class HeldItems {
   HeldItems.fromJson(Map<String, dynamic> json) {
     item = json['item'] != null ? new Ability.fromJson(json['item']) : null;
     if (json['version_details'] != null) {
-      versionDetails = new List<VersionDetails>();
+      versionDetails = <VersionDetails>[];
       json['version_details'].forEach((v) {
         versionDetails.add(new VersionDetails.fromJson(v));
       });
@@ -260,7 +260,7 @@ class Moves {
   Moves.fromJson(Map<String, dynamic> json) {
     move = json['move'] != null ? new Ability.fromJson(json['move']) : null;
     if (json['version_group_details'] != null) {
-      versionGroupDetails = new List<VersionGroupDetails>();
+      versionGroupDetails = <VersionGroupDetails>[];
       json['version_group_details'].forEach((v) {
         versionGroupDetails.add(new VersionGroupDetails.fromJson(v));
       });

@@ -57,7 +57,7 @@ class PokeSpecie {
     captureRate = json['capture_rate'];
     color = json['color'] != null ? new Color.fromJson(json['color']) : null;
     if (json['egg_groups'] != null) {
-      eggGroups = new List<EggGroups>();
+      eggGroups = <EggGroups>[];
       json['egg_groups'].forEach((v) {
         eggGroups.add(new EggGroups.fromJson(v));
       });
@@ -69,7 +69,7 @@ class PokeSpecie {
         ? new Color.fromJson(json['evolves_from_species'])
         : null;
     if (json['flavor_text_entries'] != null) {
-      flavorTextEntries = new List<FlavorTextEntries>();
+      flavorTextEntries = <FlavorTextEntries>[];
       json['flavor_text_entries'].forEach((v) {
         flavorTextEntries.add(new FlavorTextEntries.fromJson(v));
       });
@@ -77,7 +77,7 @@ class PokeSpecie {
     formsSwitchable = json['forms_switchable'];
     genderRate = json['gender_rate'];
     if (json['genera'] != null) {
-      genera = new List<Genera>();
+      genera = <Genera>[];
       json['genera'].forEach((v) {
         genera.add(new Genera.fromJson(v));
       });
@@ -96,27 +96,27 @@ class PokeSpecie {
     isBaby = json['is_baby'];
     name = json['name'];
     if (json['names'] != null) {
-      names = new List<Names>();
+      names = <Names>[];
       json['names'].forEach((v) {
         names.add(new Names.fromJson(v));
       });
     }
     order = json['order'];
     if (json['pal_park_encounters'] != null) {
-      palParkEncounters = new List<PalParkEncounters>();
+      palParkEncounters = <PalParkEncounters>[];
       json['pal_park_encounters'].forEach((v) {
         palParkEncounters.add(new PalParkEncounters.fromJson(v));
       });
     }
     if (json['Pokedex_numbers'] != null) {
-      pokedexNumbers = new List<PokedexNumbers>();
+      pokedexNumbers = <PokedexNumbers>[];
       json['Pokedex_numbers'].forEach((v) {
         pokedexNumbers.add(new PokedexNumbers.fromJson(v));
       });
     }
     shape = json['shape'] != null ? new Color.fromJson(json['shape']) : null;
     if (json['varieties'] != null) {
-      varieties = new List<Varieties>();
+      varieties = <Varieties>[];
       json['varieties'].forEach((v) {
         varieties.add(new Varieties.fromJson(v));
       });

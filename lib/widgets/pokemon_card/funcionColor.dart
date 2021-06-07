@@ -3,93 +3,67 @@ import 'package:Pokedex/evoluciones.dart';
 import 'package:Pokedex/widgets/evoluciones_card/evoluciones_card.dart';
 
 Color getColor(String tipo) {
-  if (tipo == "normal") {
-    return Colors.brown;
-  } else if (tipo == "fighting") {
-    return Colors.red;
-  } else if (tipo == "flying") {
-    return Colors.indigo;
-  } else if (tipo == "poison") {
-    return Colors.deepPurpleAccent;
-  } else if (tipo == "ground") {
-    return Color(0xffbb6528);
-  } else if (tipo == "rock") {
-    return Color(0xff888f3b);
-  } else if (tipo == "bug") {
-    return Color(0xff73a82f);
-  } else if (tipo == "ghost") {
-    return Color(0xff8c7bbf);
-  } else if (tipo == "steel") {
-    return Colors.grey;
-  } else if (tipo == "fire") {
-    return Colors.deepOrangeAccent;
-  } else if (tipo == "water") {
-    return Colors.blue;
-  } else if (tipo == "grass") {
-    return Colors.green;
-  } else if (tipo == "electric") {
-    return Colors.yellow;
-  } else if (tipo == "psychic") {
-    return Color(0xffffa59e);
-  } else if (tipo == "ice") {
-    return Colors.blueAccent;
-  } else if (tipo == "dragon") {
-    return Color(0xff5c5cb1);
-  } else if (tipo == "dark") {
-    return Color(0xff3d1f1d);
-  } else if (tipo == "fairy") {
-    return Colors.pink;
-  }
+  if (tipo == "normal") return Colors.brown;
+  if (tipo == "fighting") return Colors.red;
+  if (tipo == "flying") return Colors.indigo;
+  if (tipo == "poison") return Colors.deepPurpleAccent;
+  if (tipo == "ground") return Color(0xffbb6528);
+  if (tipo == "rock") return Color(0xff888f3b);
+  if (tipo == "bug") return Color(0xff73a82f);
+  if (tipo == "ghost") return Color(0xff8c7bbf);
+  if (tipo == "steel") return Colors.grey;
+  if (tipo == "fire") return Colors.deepOrangeAccent;
+  if (tipo == "water") return Colors.blue;
+  if (tipo == "grass") return Colors.green;
+  if (tipo == "electric") return Colors.yellow;
+  if (tipo == "psychic") return Color(0xffffa59e);
+  if (tipo == "ice") return Colors.blueAccent;
+  if (tipo == "dragon") return Color(0xff5c5cb1);
+  if (tipo == "dark") return Color(0xff3d1f1d);
+  if (tipo == "fairy") return Colors.pink;
 
   return Colors.white;
 }
 
 String traducir(String tipo) {
-  if (tipo == "normal") {
-    return "normal";
-  } else if (tipo == "fighting") {
-    return "luchador";
-  } else if (tipo == "flying") {
-    return "volador";
-  } else if (tipo == "poison") {
-    return "veneno";
-  } else if (tipo == "ground") {
-    return "tierra";
-  } else if (tipo == "rock") {
-    return "roca";
-  } else if (tipo == "bug") {
-    return "bicho";
-  } else if (tipo == "ghost") {
-    return "fantasma";
-  } else if (tipo == "steel") {
-    return "acero";
-  } else if (tipo == "fire") {
-    return "fuego";
-  } else if (tipo == "water") {
-    return "agua";
-  } else if (tipo == "grass") {
-    return "planta";
-  } else if (tipo == "electric") {
-    return "electrico";
-  } else if (tipo == "psychic") {
-    return "psiquico";
-  } else if (tipo == "ice") {
-    return "hielo";
-  } else if (tipo == "dragon") {
-    return "dragon";
-  } else if (tipo == "dark") {
-    return "oscuro";
-  } else if (tipo == "fairy") {
-    return "hada";
-  }
+  if (tipo == "normal") return "normal";
+  if (tipo == "fighting") return "luchador";
+  if (tipo == "flying") return "volador";
+  if (tipo == "poison") return "veneno";
+  if (tipo == "ground") return "tierra";
+  if (tipo == "rock") return "roca";
+  if (tipo == "bug") return "bicho";
+  if (tipo == "ghost") return "fantasma";
+  if (tipo == "steel") return "acero";
+  if (tipo == "fire") return "fuego";
+  if (tipo == "water") return "agua";
+  if (tipo == "grass") return "planta";
+  if (tipo == "electric") return "electrico";
+  if (tipo == "psychic") return "psiquico";
+  if (tipo == "ice") return "hielo";
+  if (tipo == "dragon") return "dragon";
+  if (tipo == "dark") return "oscuro";
+  if (tipo == "fairy") return "hada";
+
   return "wtf";
 }
 
 bool tieneTipos(int i) {
-  if (i > 1) {
-    return true;
-  }
+  if (i > 1) return true;
   return false;
+}
+
+int axisResponsive(double screen) {
+  if (screen > 2400) return 9;
+  if (screen > 2100) return 8;
+  if (screen > 1800) return 7;
+  if (screen > 1500) return 6;
+  if (screen > 1200) return 5;
+  if (screen > 900) return 4;
+  if (screen > 600) return 3;
+  if (screen > 300) return 2;
+  if (screen > 100) return 1;
+  return 5;
 }
 
 String getComa(String a) {
@@ -101,46 +75,59 @@ String getComa(String a) {
   }
 }
 
-List<Row> mangaLaEvolucione(PokEvolution evolution) {
-  List<Row> res = new List();
-  int len = evolution.chain.evolvesTo.length;
+List<Row> PrintEvolutionChain(Chain chain) {
+  List<Row> res = <Row>[];
+  Row res2 = Row();
+  List<List<String>> pokemons = <List<String>>[];
+  List<String> pokemonsTemp = <String>[];
+  List<Widget> widget = <Widget>[];
 
-  if (len > 1) {
-    for (var i = 0; i < len; i++) {
-      res = res + mangaLinea(evolution, i);
-    }
+  if (chain.evolvesTo.length == 0) {
+    pokemonsTemp.add(chain.species.name);
+    pokemons.add(List.from(pokemonsTemp));
   } else {
-    res = res + mangaLinea(evolution, 0);
+    chain.evolvesTo.forEach((element) => {
+          pokemonsTemp.add(chain.species.name),
+          PrintPreorder(element, pokemons, pokemonsTemp)
+        });
   }
 
+  pokemons.forEach((chain) {
+    chain.forEach((pokemon) {
+      widget.add(new EvolucionCard(
+        pokemonName: pokemon,
+      ));
+    });
+    List<Widget> widgetTemp = List.from(widget);
+    widget.clear();
+
+    res2 = new Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgetTemp,
+    );
+    res.add(res2);
+  });
   return res;
 }
 
-List<Row> mangaLinea(PokEvolution evolution, int index) {
-  List<Row> b = new List();
-  List<Widget> a = new List();
-  bool q = true;
-
-  EvolvesTo aber = evolution.chain.evolvesTo[index];
-  a.add(new EvolucionCard(nombre: evolution.chain.species.name));
-  bool hay = true;
-
-  do {
-    if (aber.evolvesTo.length > 0) {
-      a.add(new EvolucionCard(nombre: aber.species.name));
-      aber = aber.evolvesTo[0];
-      hay = true;
-    } else if (hay) {
-      a.add(new EvolucionCard(nombre: aber.species.name));
-      hay = false;
-    } else {
-      q = false;
-    }
-  } while (q);
-
-  b.add(new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: a,
-  ));
-  return b;
+void PrintPreorder(
+    EvolvesTo pokemon, List<List<String>> pokemons, List<String> pokemonsTemp) {
+  pokemonsTemp.add(pokemon.species.name);
+  if (pokemon == null || pokemon.evolvesTo.length == 0) {
+    pokemons.add(List.from(pokemonsTemp));
+    pokemonsTemp.clear();
+    return;
+  }
+  if (pokemon.evolvesTo.length == 1) {
+    pokemon.evolvesTo
+        .forEach((element) => PrintPreorder(element, pokemons, pokemonsTemp));
+  } else if (pokemon.evolvesTo.length > 1) {
+    List<String> pokemonsTempTemp = List.from(pokemonsTemp);
+    print(pokemonsTempTemp);
+    pokemon.evolvesTo.forEach((element) => {
+          if (pokemonsTemp.length == 0)
+            pokemonsTemp = List.from(pokemonsTempTemp),
+          PrintPreorder(element, pokemons, pokemonsTemp)
+        });
+  }
 }

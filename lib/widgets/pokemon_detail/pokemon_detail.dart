@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:Pokedex/evoluciones.dart';
 import 'package:Pokedex/pokemon_detail.dart';
-import 'package:Pokedex/species.dart';
-import 'package:Pokedex/widgets/evoluciones_card/evoluciones_card.dart';
 import 'package:Pokedex/widgets/pokemon_card/funcionColor.dart';
 
 class PokemonDetail extends StatelessWidget {
   final PokeDetail pokemon;
-  final PokeSpecie specie;
-  final PokEvolution evolution;
+  final Chain chain;
 
-  PokemonDetail({this.pokemon, this.specie, this.evolution});
+  PokemonDetail({this.pokemon, this.chain});
 
   bodyWidget(BuildContext context) => Stack(
         children: [
@@ -89,17 +86,7 @@ class PokemonDetail extends StatelessWidget {
                         SizedBox(
                           height: 30.0,
                         ),
-                        evolution.chain.evolvesTo.length != 0
-                            ? Column(
-                                children: mangaLaEvolucione(evolution)
-                                    .map((e) => e)
-                                    .toList())
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  EvolucionCard(nombre: pokemon.name),
-                                ],
-                              )
+                        Column(children: PrintEvolutionChain(chain).toList())
                       ],
                     ),
                   ],
@@ -115,10 +102,7 @@ class PokemonDetail extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.contain,
-                    image: NetworkImage(
-                        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
-                            pokemon.id.toString() +
-                            ".png"),
+                    image: NetworkImage(pokemon.sprites.frontDefault),
                   )),
                 ),
               ))
